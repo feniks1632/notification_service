@@ -1,10 +1,12 @@
 import logging
 
 from celery import shared_task
+
 from .models import User
 from .services import NotificationService
 
 logger = logging.getLogger(__name__)
+
 
 @shared_task(bind=True, max_retries=3, default_retry_delay=60)
 def send_notification_task(self, user_id: int, title: str, message: str):

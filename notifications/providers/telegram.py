@@ -21,7 +21,7 @@ class TelegramProvider:
         try:
             payload = {
                 "chat_id": user.telegram_id,
-                "text": f"<b>{title}</b>\n\n{message}",
+                "text": f"{title}\n{message}",
                 "parse_mod": "HTML"
             }
             response = requests.post(f"{self.base_url}/sendMessage", json=payload)

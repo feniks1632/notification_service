@@ -3,6 +3,9 @@ import logging
 from .factory import NotificationProviderFactory
 from .models import Notification
 
+import django
+django.setup()
+
 logger = logging.getLogger(__name__)
 
 

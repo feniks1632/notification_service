@@ -1,12 +1,42 @@
+from drf_spectacular.utils import extend_schema, OpenApiExample
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 
 from .serializers import SendNotificationSerializer
 from .tasks import send_notification_task
 
 
+@extend_schema(
+    description="Отправляет уведомление пользователю. Использует fallback-логику: Telegram → Email → SMS.",
+    examples=[
+        OpenApiExample(
+            name="Успешный запрос",
+            summary="Пример отправки уведомления",
+            description="Отправка уведомления пользователю с ID 1",
+            value={
+                "user_id": 1,
+                "title": "Новое уведомление",
+                "message": "Вы получили новое сообщение!"
+            },
+            request_only=True,  # Только для запроса
+            response_only=False,
+        ),
+        OpenApiExample(
+            name="Ошибка валидации",
+            summary="Неверный user_id",
+            description="Если user_id не существует",
+            value={
+                "user_id": ["Пользователь с таким ID не найден."]
+            },
+            request_only=False,
+            response_only=True,  # Только для ответа
+        )
+    ]
+)
+
 class SendNotificationView(APIView):
+    serializer_class = SendNotificationSerializer
     def post(self, request):
         serializer = SendNotificationSerializer(data=request.data)
         if serializer.is_valid():
