@@ -14,7 +14,6 @@ class SendNotificationView(APIView):
             title = serializer.validated_data['title'] # type: ignore
             message = serializer.validated_data['message'] # type: ignore
 
-            # ✅ Передаём user_id (int), а не user (объект)
             send_notification_task.delay(user_id, title, message) # type: ignore
 
             return Response(
