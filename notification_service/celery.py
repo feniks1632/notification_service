@@ -15,6 +15,3 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
 
-@app.task(bind=True)
-def debug_task(self):
-    logger.info(f"Request: {self.request!r}")

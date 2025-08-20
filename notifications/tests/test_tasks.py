@@ -1,6 +1,7 @@
 from unittest.mock import patch
 from django.test import TestCase
 from celery.exceptions import Retry
+
 from notifications.models import User
 from notifications.tasks import send_notification_task
 
