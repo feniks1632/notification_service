@@ -4,13 +4,17 @@ class User(models.Model):
     email = models.EmailField(blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     telegram_id = models.CharField(max_length=50, blank=True, null=True)
-    prefered_chanels = models.JSONField(
+    preferred_channels = models.JSONField(
         default=list, 
         help_text="Приоритет каналов: ['telegram', 'email', 'sms']"
     )
 
     def __str__(self):
-        return self.email or self.phone or f" User {self.id}"
+        if self.email:
+            return self.email
+        if self.phone:
+            return self.phone
+        return f"User {self.id}" # type: ignore
     
     class Meta:
         db_table = "notification_user"

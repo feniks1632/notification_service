@@ -12,7 +12,7 @@ class TelegramProvider:
     """
     def __init__(self):
         self.token = config("TELEGRAM_TOKEN")
-        self.base_url = f"https://api/telegram.org/bot{self.token}"
+        self.base_url = f"https://api.telegram.org/bot{self.token}"
 
     def send(self, user, title, message):
         if not user.telegram_id:
